@@ -1,7 +1,11 @@
 ---
-import MainLayout from '@/layouts/MainLayout.astro';
+import MainLayout from "@/layouts/MainLayout.astro";
+
+const { user } = Astro.locals;
 ---
 
 <MainLayout>
   <h1 class="text-3xl">Home Page</h1>
+  <p>{user?.name}</p>
+  <pre class="text-center text-red-400"> {JSON.stringify(user, null, 2)} </pre>
 </MainLayout>

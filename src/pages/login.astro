@@ -144,16 +144,12 @@ const rememberMe = !!email;
     try {
       //! Paso 1: obtener la credenciales del lado del cliente
 
-      // Paso 2: Vericar las credenciales en el backend
-
-      if (true) {
-        alert("error.message");
-        bntGoogle.removeAttribute("disabled");
-        return;
-      }
-
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+        errorCallbackURL: "/login",
+      });
       bntGoogle.innerText = "Redireccionando...";
-      window.location.replace("/protected");
     } catch (error) {
       console.log(error);
       bntGoogle.removeAttribute("disabled");
