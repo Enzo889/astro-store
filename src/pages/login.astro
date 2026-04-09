@@ -142,8 +142,6 @@ const rememberMe = !!email;
     bntGoogle.setAttribute("disabled", "disabled");
 
     try {
-      //! Paso 1: obtener la credenciales del lado del cliente
-
       await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
