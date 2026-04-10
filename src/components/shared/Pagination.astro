@@ -1,0 +1,36 @@
+---
+interface Props {
+  totalPages: number;
+}
+
+const { totalPages } = Astro.props;
+
+const url = Astro.url;
+const pageParam = Number(url.searchParams.get("page") ?? 1);
+
+const currentPage = Math.max(
+  pageParam > totalPages ? totalPages : pageParam,
+  1,
+);
+
+const path = url.pathname;
+---
+
+<div class="flex justify-between my-32">
+  <a href={`${path}?page=${Math.max(currentPage - 1, 1)}`} class="button"
+    >Previous</a
+  >
+  <span>Page {currentPage} of {totalPages}</span>
+  <a
+    href={`${path}?page=${Math.min(currentPage + 1, totalPages)}`}
+    class="button">Next</a
+  >
+</div>
+
+<style>
+  @import "tailwindcss";
+
+  .button {
+    @apply rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700;
+  }
+</style>
