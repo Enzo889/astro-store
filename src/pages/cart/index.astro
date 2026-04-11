@@ -20,68 +20,93 @@ const total = products.reduce(
 ---
 
 <MainLayout>
-  <h1 class="text-3xl">CART</h1>
+  <h1 class="text-3xl">Cart</h1>
 
   <section class="grid grid-cols-1 sm:grid-cols-2">
     <div class="order-2 sm:order-1">
-      <h2>Products</h2>
-      <a href="javascript:history.back()" class="hover:underline text-blue-500"
-        >Back to products</a
-      >
-
       {
         products.map(
           ({ image, title, slug, price, size, quantity, productId }) => (
-            <div class="flex gap-5 mt-5">
+            <div class="flex gap-5 mt-5 mx-5 text-gray-600 text-[15px]">
               <img src={image} alt={title} class="w-24 h-24 object-cover" />
               <div>
-                <a href={`/products/${slug}`} class="hover:underline">
+                <a
+                  href={`/products/${slug}`}
+                  class="hover:underline text-black"
+                >
                   {title}
                 </a>
                 <p>${price}</p>
                 <p>
                   Size: <span class="font-bold">{size}</span>{" "}
                 </p>
-                <p>Quantity: {quantity}</p>
-                <button
-                  data-id={productId}
-                  data-size={size}
-                  class="text-blue-500 btn-delete cursor-pointer hover:underline"
-                >
-                  Remove
-                </button>
+                <span class="flex justify-between">
+                  <p>
+                    Quantity:
+                    <select
+                      name="quantity"
+                      id="quantity"
+                      data-id={productId}
+                      data-size={size}
+                      class="select-quantity"
+                    >
+                      <option value="1" selected={quantity === 1}>
+                        1
+                      </option>
+                      <option value="2" selected={quantity === 2}>
+                        2
+                      </option>
+                      <option value="3" selected={quantity === 3}>
+                        3
+                      </option>
+                      <option value="4" selected={quantity === 4}>
+                        4
+                      </option>
+                      <option value="5" selected={quantity === 5}>
+                        5
+                      </option>
+                    </select>
+                  </p>
+                  <button
+                    data-id={productId}
+                    data-size={size}
+                    class="btn-delete cursor-pointer underline underline-offset-4 hover:text-black transition-colors duration-300 "
+                  >
+                    Remove
+                  </button>
+                </span>
               </div>
             </div>
           ),
         )
       }
     </div>
-    <div class="bg-black h-[330px] text-white p-6 rounded-lg shadow-lg order-1">
-      <h2 class="text-lg font-semibold mb-4">Resumen de compra</h2>
+    <div class="bg-white h-[330px] text-black p-6 rounded-lg shadow-xl order-1">
+      <h2 class="text-lg! font-semibold mb-4">Order Summary</h2>
 
-      <div class="flex justify-between text-gray-400 mb-2">
-        <span>Envío</span>
-        <span>Gratis</span>
+      <div class="flex justify-between text-gray-800 mb-2">
+        <span>Shipping</span>
+        <span>Free</span>
       </div>
 
-      <div class="flex justify-between text-gray-400 mb-4">
+      <div class="flex justify-between text-gray-800 mb-4">
         <span>SubTotal </span>
         <span>{Formatter.currency(total)}</span>
       </div>
-      <div class="flex justify-between text-gray-400 mb-4">
-        <span>Impuesto </span>
+      <div class="flex justify-between text-gray-800 mb-4">
+        <span>Sales Tax </span>
         <span>{Formatter.currency(total * 0.15)}</span>
       </div>
 
-      <div class="flex justify-between text-xl font-bold">
+      <div class="flex justify-between text-xl! font-bold">
         <span>Total</span>
         <span>{Formatter.currency(total * 1.15)}</span>
       </div>
 
       <button
-        class="mt-10 w-full bg-blue-700 text-gray-300 py-3 rounded-lg hover:bg-gray-600 transition-all cursor-pointer"
+        class="mt-10 w-full bg-blue-700 text-white py-3 rounded-lg hover:bg-blue-800 transition-all cursor-pointer"
       >
-        PAGAR
+        Buy
       </button>
     </div>
   </section>
@@ -105,6 +130,27 @@ const total = products.reduce(
         itemsInCart.set(cart.length);
 
         // temporal
+        navigate("/cart");
+      });
+    });
+
+    const quantitySelects: NodeListOf<HTMLSelectElement> =
+      document.querySelectorAll(".select-quantity");
+
+    quantitySelects.forEach((select) => {
+      select.addEventListener("change", (event) => {
+        const target = event.target as HTMLSelectElement;
+        const productId = target.dataset.id ?? "";
+        const size = target.dataset.size ?? "";
+        const quantity = parseInt(target.value);
+
+        const cart = CartCookiesClient.updateQuantity(
+          productId,
+          size,
+          quantity,
+        );
+        itemsInCart.set(cart.length);
+
         navigate("/cart");
       });
     });
