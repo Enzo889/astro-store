@@ -1,0 +1,112 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import type { CartItem } from "@/interfaces";
+import { actions } from "astro:actions";
+import { Formatter } from "@/utils";
+
+const { data: products, error } = await Astro.callAction(
+  actions.loadProductsFromCart,
+  {},
+);
+
+if (error || !products) {
+  return Astro.redirect("/");
+}
+
+const total = products.reduce(
+  (acc, product) => acc + product.price * product.quantity,
+  0,
+);
+---
+
+<MainLayout>
+  <h1 class="text-3xl">CART</h1>
+
+  <section class="grid grid-cols-1 sm:grid-cols-2">
+    <div class="order-2 sm:order-1">
+      <h2>Products</h2>
+      <a href="javascript:history.back()" class="hover:underline text-blue-500"
+        >Back to products</a
+      >
+
+      {
+        products.map(
+          ({ image, title, slug, price, size, quantity, productId }) => (
+            <div class="flex gap-5 mt-5">
+              <img src={image} alt={title} class="w-24 h-24 object-cover" />
+              <div>
+                <a href={`/products/${slug}`} class="hover:underline">
+                  {title}
+                </a>
+                <p>${price}</p>
+                <p>
+                  Size: <span class="font-bold">{size}</span>{" "}
+                </p>
+                <p>Quantity: {quantity}</p>
+                <button
+                  data-id={productId}
+                  data-size={size}
+                  class="text-blue-500 btn-delete cursor-pointer hover:underline"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ),
+        )
+      }
+    </div>
+    <div class="bg-black h-[330px] text-white p-6 rounded-lg shadow-lg order-1">
+      <h2 class="text-lg font-semibold mb-4">Resumen de compra</h2>
+
+      <div class="flex justify-between text-gray-400 mb-2">
+        <span>Envío</span>
+        <span>Gratis</span>
+      </div>
+
+      <div class="flex justify-between text-gray-400 mb-4">
+        <span>SubTotal </span>
+        <span>{Formatter.currency(total)}</span>
+      </div>
+      <div class="flex justify-between text-gray-400 mb-4">
+        <span>Impuesto </span>
+        <span>{Formatter.currency(total * 0.15)}</span>
+      </div>
+
+      <div class="flex justify-between text-xl font-bold">
+        <span>Total</span>
+        <span>{Formatter.currency(total * 1.15)}</span>
+      </div>
+
+      <button
+        class="mt-10 w-full bg-blue-700 text-gray-300 py-3 rounded-lg hover:bg-gray-600 transition-all cursor-pointer"
+      >
+        PAGAR
+      </button>
+    </div>
+  </section>
+</MainLayout>
+
+<script>
+  import { itemsInCart } from "@/store/cart.store.";
+  import { CartCookiesClient } from "@/utils";
+  import { navigate } from "astro:transitions/client";
+  document.addEventListener("astro:page-load", () => {
+    const deleteButtons: NodeListOf<HTMLButtonElement> =
+      document.querySelectorAll(".btn-delete");
+
+    deleteButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const target = event.target as HTMLButtonElement;
+        const productId = target.dataset.id ?? " ";
+        const size = target.dataset.size ?? " ";
+
+        const cart = CartCookiesClient.removeItem(productId, size);
+        itemsInCart.set(cart.length);
+
+        // temporal
+        navigate("/cart");
+      });
+    });
+  });
+</script>

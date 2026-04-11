@@ -1,4 +1,5 @@
 import { loginUser, logout, registerUser } from "./auth";
+import { loadProductsFromCart } from "./cart/load-products-from-cart.action";
 import { getProductsByPage, getProductBySlug } from "./products/";
 
 export const server = {
@@ -12,4 +13,7 @@ export const server = {
   // Products
   getProductsByPage,
   getProductBySlug,
+
+  //cart
+  loadProductsFromCart,
 };

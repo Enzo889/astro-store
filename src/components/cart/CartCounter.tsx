@@ -1,9 +1,23 @@
+import { itemsInCart } from "@/store/cart.store.";
+import { useEffect } from "react";
+import { CartCookiesClient } from "@/utils";
+import { useStore } from "@nanostores/react";
+
 export const CartCounter = () => {
+  const $itemsInCart = useStore(itemsInCart);
+
+  useEffect(() => {
+    const Cart = CartCookiesClient.getCart();
+    itemsInCart.set(Cart.length);
+  }, []);
+
   return (
-    <a href="/cart" className="relative inline-block">
-      <span className="absolute -top-2 -right-2 flex justify-center items-center  bg-blue-500 text-white text-xs rounded-full w-5 h-5">
-        3
-      </span>
+    <a href="/cart" className="relative inline-block transition-all ">
+      {$itemsInCart > 0 && (
+        <span className="absolute -top-2 -right-2 flex justify-center items-center  bg-blue-500 text-white text-xs rounded-full w-5 h-5">
+          {$itemsInCart}
+        </span>
+      )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1.5rem"
