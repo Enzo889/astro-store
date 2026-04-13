@@ -4,6 +4,7 @@ import {
   getProductsByPage,
   getProductBySlug,
   createUpdateProduct,
+  deleteProductImage,
 } from "./products/";
 
 export const server = {
@@ -24,4 +25,5 @@ export const server = {
   //admin
   //products
   createUpdateProduct,
+  deleteProductImage,
 };
