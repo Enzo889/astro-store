@@ -9,7 +9,11 @@ interface Props {
   image?: string;
 }
 
-const { title = "Astro Store", description, image } = Astro.props;
+const {
+  title = "Astro Store",
+  description = "this is a website that i made to learn astro. ",
+  image = "https://avatars.githubusercontent.com/u/113375961?v=4",
+} = Astro.props;
 ---
 
 <html lang="es">
@@ -23,6 +27,24 @@ const { title = "Astro Store", description, image } = Astro.props;
     <meta name="og:title" content={title} />
     <meta name="og:description" content={description} />
     <meta name="og:image" content={image} />
+
+    <!-- Meta tags -->
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content={title} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
 
     <ClientRouter />
   </head>

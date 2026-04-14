@@ -1,0 +1,37 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+---
+
+<MainLayout
+  title="404 Not Found "
+  description="404 page - this url is not available"
+>
+  <div class="flex flex-col items-center justify-center h-screen gap-3">
+    <span class="flex flex-col items-center gap-2">
+      <h1>404</h1>
+      <h3>Whoops! Sorry about that.</h3>
+    </span>
+    <p>We couldn't find the page you're looking for.</p>
+    <a href="/">Back to Home</a>
+  </div>
+</MainLayout>
+
+<style>
+  @import "tailwindcss";
+
+  h1 {
+    @apply text-6xl font-bold;
+  }
+
+  h3 {
+    @apply text-2xl font-bold;
+  }
+
+  p {
+    @apply text-gray-500;
+  }
+
+  a {
+    @apply text-blue-500 underline hover:text-blue-600;
+  }
+</style>

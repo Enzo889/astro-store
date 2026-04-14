@@ -25,10 +25,8 @@ export class ImageUpload {
       const imageId = imageName.split(".")[0];
 
       const resp = await cloudinary.uploader.destroy(imageId);
-      console.log("Imagen eliminada correctamente: ", resp);
       return true;
     } catch (error) {
-      console.log("Error al eliminar la imagen: ", error);
       return false;
     }
   }

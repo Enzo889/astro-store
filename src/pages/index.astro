@@ -1,31 +1,255 @@
 ---
-import { ProductList } from "@/components";
-import Pagination from "@/components/shared/Pagination.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
-import { actions } from "astro:actions";
-
-const { user } = Astro.locals;
-
-const searchParams = Astro.url.searchParams;
-const pageParams = Number(searchParams.get("page") ?? 1);
-
-const { data, error } = await Astro.callAction(actions.getProductsByPage, {
-  page: pageParams,
-});
-
-if (error) {
-  return new Response("Error", { status: 500 });
-}
-
-const { products, totalPages } = data;
-
-if (products.length === 0) {
-  return Astro.redirect(`/?page=${totalPages}`);
-}
 ---
 
-<MainLayout>
-  <h1 class="text-2xl! mb-10">Apparel</h1>
-  <ProductList products={products} client:load />
-  <Pagination totalPages={totalPages} />
+<MainLayout title="Astro Store | Minimalist Apparel">
+  <div
+    class="flex flex-col items-center justify-center min-h-[calc(100vh-160px)] py-10 text-center animate-fade-in"
+  >
+    <!-- SVG Logo -->
+    <div
+      class="mb-10 text-gray-900 border-2 border-gray-900 p-4 rounded-full"
+      id="logo-container"
+    >
+      <svg
+        class="logo-svg"
+        width="64"
+        height="64"
+        viewBox="0 0 100 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          class="logo-ring"
+          cx="50"
+          cy="50"
+          r="35"
+          stroke="currentColor"
+          stroke-width="2"
+          fill="none"></circle>
+        <circle class="logo-dot" cx="50" cy="50" r="6" fill="currentColor"
+        ></circle>
+        <line
+          class="logo-line"
+          x1="50"
+          y1="50"
+          x2="85"
+          y2="50"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></line>
+      </svg>
+    </div>
+
+    <!-- Hero Title -->
+    <h1
+      class="text-4xl md:text-6xl font-normal text-gray-900 tracking-tight mb-6"
+    >
+      Astro Store.
+    </h1>
+
+    <!-- Descriptive Text -->
+    <p
+      class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light mb-12"
+    >
+      Descubre nuestra colección exclusiva de prendas. Diseñada para estilos de
+      vida modernos, con materiales elegidos cuidadosamente para ofrecer
+      comodidad sin sacrificar la elegancia.
+    </p>
+
+    <!-- Call to Actions -->
+    <div
+      class="flex flex-col sm:flex-row gap-4 items-center justify-center w-full"
+    >
+      <a
+        href="/products"
+        class="bg-gray-900 text-white px-10 py-3 rounded hover:bg-gray-800 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium"
+      >
+        Ver Colección
+      </a>
+      <a
+        href="/login"
+        class="bg-transparent text-gray-900 border border-gray-900 px-10 py-3 rounded hover:bg-gray-50 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium"
+      >
+        Iniciar Sesión
+      </a>
+    </div>
+  </div>
+
+  <!-- Featured / Info Section below -->
+  <section
+    class="mt-10 border-t border-gray-200 pt-16 grid grid-cols-1 md:grid-cols-3 gap-10 pb-20 animate-fade-in-up"
+  >
+    <!-- Item 1 -->
+    <div class="text-center md:text-left">
+      <div class="mb-4 inline-block p-3 bg-gray-100 rounded-full text-gray-800">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"
+          ></path></svg
+        >
+      </div>
+      <h3 class="text-xl font-medium text-gray-900 mb-3">Calidad Premium</h3>
+      <p class="text-gray-600 font-light">
+        Cada prenda es revisada rigurosamente para garantizar los mejores
+        acabados y larga durabilidad.
+      </p>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="text-center md:text-left">
+      <div class="mb-4 inline-block p-3 bg-gray-100 rounded-full text-gray-800">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="M12 22V2M3 8h18M3 16h18"></path></svg
+        >
+      </div>
+      <h3 class="text-xl font-medium text-gray-900 mb-3">Diseño Minimalista</h3>
+      <p class="text-gray-600 font-light">
+        Funcionalidad sin exceso de ruido. Líneas limpias, paletas neutrales y
+        una estética hecha para encajar contigo.
+      </p>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="text-center md:text-left">
+      <div class="mb-4 inline-block p-3 bg-gray-100 rounded-full text-gray-800">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><rect width="18" height="18" x="3" y="3" rx="2"></rect><path
+            d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2"></path><path d="M3 11h18"
+          ></path><path d="M9 14h.01"></path><path d="M15 14h.01"></path></svg
+        >
+      </div>
+      <h3 class="text-xl font-medium text-gray-900 mb-3">A tu medida</h3>
+      <p class="text-gray-600 font-light">
+        Visualiza en pantalla completa los detalles y utiliza nuestra interfaz
+        pensada para inspirarte y decidir.
+      </p>
+    </div>
+  </section>
+
+  <style>
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fade-in-up {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in {
+      animation: fade-in 1s ease-out forwards;
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 1s ease-out forwards;
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+  </style>
 </MainLayout>
+
+<script>
+  import { animate, createTimeline } from "animejs";
+
+  document.addEventListener("astro:page-load", () => {
+    const container = document.getElementById("logo-container");
+    const dot = document.querySelector(".logo-dot") as SVGCircleElement;
+    const ring = document.querySelector(".logo-ring") as SVGCircleElement;
+    const line = document.querySelector(".logo-line") as SVGLineElement;
+
+    if (!container || !dot || !ring || !line) return;
+
+    // Posición central del SVG en coordenadas del viewport
+    let mouseX = 0;
+    let mouseY = 0;
+    let cx = 50;
+    let cy = 50;
+
+    // Animación base: pulso del anillo
+    animate(ring, {
+      r: [35, 40, 35],
+      opacity: [1, 0.4, 1],
+      duration: 2500,
+      loop: true,
+      easing: "easeInOutSine",
+    });
+
+    // Seguir el mouse
+    document.addEventListener("mousemove", (e) => {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Distancia relativa normalizada (max 30px en coords SVG)
+      const dx = ((e.clientX - centerX) / window.innerWidth) * 60;
+      const dy = ((e.clientY - centerY) / window.innerHeight) * 60;
+
+      const targetX = Math.max(20, Math.min(80, 50 + dx));
+      const targetY = Math.max(20, Math.min(80, 50 + dy));
+
+      animate(dot, {
+        cx: targetX,
+        cy: targetY,
+        duration: 600,
+        easing: "easeOutElastic(1, 0.5)",
+      });
+
+      animate(line, {
+        x2: targetX,
+        y2: targetY,
+        duration: 600,
+        easing: "easeOutElastic(1, 0.5)",
+      });
+    });
+
+    // Volver al centro cuando el mouse sale
+    document.addEventListener("mouseleave", () => {
+      animate(dot, {
+        cx: 50,
+        cy: 50,
+        duration: 800,
+        easing: "easeOutElastic(1, 0.6)",
+      });
+      animate(line, {
+        x2: 85,
+        y2: 50,
+        duration: 800,
+        easing: "easeOutElastic(1, 0.6)",
+      });
+    });
+  });
+</script>

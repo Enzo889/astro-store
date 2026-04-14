@@ -16,7 +16,6 @@ if (error) {
 }
 
 const { product, images } = data;
-console.log(product);
 ---
 
 <MainLayout title="Mantenimiento de producto">
@@ -219,6 +218,7 @@ console.log(product);
               type="file"
               accept="image/*"
               multiple
+              class="hidden"
             />
           </label>
         </div>
@@ -289,6 +289,15 @@ console.log(product);
     const sizeButtons = document.querySelectorAll(
       ".btn-size",
     ) as NodeListOf<HTMLButtonElement>;
+    const lblSelectedFiles = document.querySelector(
+      "#lbl-selected-files",
+    ) as HTMLParagraphElement;
+    const btnsDelete = document.querySelectorAll(".btn-delete-image");
+    const dropZone = document.querySelector("#drop-zone") as HTMLLabelElement;
+    const fileInput = document.querySelector(
+      "#file-upload",
+    ) as HTMLInputElement;
+
     if (!form) {
       return;
     }
@@ -330,8 +339,6 @@ console.log(product);
 
     // Delete image
 
-    const btnsDelete = document.querySelectorAll(".btn-delete-image");
-
     btnsDelete.forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
@@ -349,6 +356,60 @@ console.log(product);
         }
         document.querySelector(`#${id}`)?.remove();
       });
+    });
+
+    // Drag and drop
+
+    const preventsDefaults = (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+    const hightlight = (e: DragEvent) => {
+      dropZone.classList.add("border-blue-500", "bg-blue-50");
+    };
+    const unHightlight = (e: DragEvent) => {
+      dropZone.classList.remove("border-blue-500", "bg-blue-50");
+    };
+
+    const createFileList = (files: File[]): FileList => {
+      const dataTrasnfer = new DataTransfer();
+      files.forEach((file) => dataTrasnfer.items.add(file));
+      return dataTrasnfer.files;
+    };
+
+    const handleFiles = (files: FileList) => {
+      const validFiles = Array.from(files).filter((file) =>
+        file.type.startsWith("image/"),
+      );
+
+      if (fileInput && validFiles.length > 0) {
+        fileInput.files = createFileList(validFiles);
+      }
+
+      lblSelectedFiles.innerHTML = `<strong>${validFiles.length} selected files</strong>`;
+    };
+
+    (["dragenter", "dragover", "dragleave", "drop"] as const).forEach(
+      (eventName) => {
+        dropZone.addEventListener(eventName, preventsDefaults);
+        document.body.addEventListener(eventName, preventsDefaults);
+      },
+    );
+
+    (["dragenter", "dragover"] as const).forEach((eventName) => {
+      dropZone.addEventListener(eventName, hightlight);
+    });
+
+    (["dragleave", "drop"] as const).forEach((eventName) => {
+      dropZone.addEventListener(eventName, unHightlight);
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      const files = e.dataTransfer?.files;
+
+      if (files) {
+        handleFiles(files);
+      }
     });
   });
 </script>

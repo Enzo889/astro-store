@@ -103,6 +103,4 @@ export default async function seed() {
   });
 
   await db.batch(queries);
-
-  console.log("✅ Seed completado.");
 }
