@@ -3,35 +3,127 @@ import MainLayout from "@/layouts/MainLayout.astro";
 ---
 
 <MainLayout
-  title="404 Not Found "
+  title="Page Not Found"
   description="404 page - this url is not available"
 >
-  <div class="flex flex-col items-center justify-center h-screen gap-3">
-    <span class="flex flex-col items-center gap-2">
-      <h1>404</h1>
-      <h3>Whoops! Sorry about that.</h3>
-    </span>
-    <p>We couldn't find the page you're looking for.</p>
-    <a href="/">Back to Home</a>
+  <div
+    class="relative flex flex-col items-center justify-center min-h-[calc(100vh-160px)] px-4 overflow-hidden"
+  >
+    <!-- Background element -->
+    <div
+      class="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
+    >
+      <div
+        class="w-[600px] h-[600px] rounded-full bg-gray-200 blur-3xl animated-bg opacity-30"
+      >
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 flex flex-col items-center text-center">
+      <h1
+        class="text-[120px] md:text-[180px] leading-none font-black text-gray-900 tracking-tighter mb-2 error-code"
+      >
+        <span class="inline-block digit">4</span>
+        <span class="inline-block digit">0</span>
+        <span class="inline-block digit">4</span>
+      </h1>
+
+      <h2
+        class="text-2xl md:text-4xl font-light text-gray-800 tracking-wide mt-2 mb-4 error-title"
+      >
+        Page Not Found
+      </h2>
+
+      <p
+        class="text-gray-500 max-w-md mx-auto mb-10 error-text text-sm md:text-base"
+      >
+        The page you are looking for might have been removed, had its name
+        changed, or is temporarily unavailable.
+      </p>
+
+      <a
+        href="/"
+        class="btn-home group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium tracking-wide text-white transition-all duration-300 bg-gray-900 rounded-lg hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/20 hover:-translate-y-1 overflow-hidden"
+      >
+        <span class="relative z-10 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="transition-transform duration-300 group-hover:-translate-x-1"
+          >
+            <path d="m12 19-7-7 7-7"></path>
+            <path d="M19 12H5"></path>
+          </svg>
+          Back to Home
+        </span>
+      </a>
+    </div>
   </div>
 </MainLayout>
 
-<style>
-  @import "tailwindcss";
+<script>
+  import { animate, stagger } from "animejs";
 
-  h1 {
-    @apply text-6xl font-bold;
-  }
+  document.addEventListener("astro:page-load", () => {
+    try {
+      // Digits intro
+      animate(".digit", {
+        y: [100, 0],
+        opacity: [0, 1],
+        rotate: ['-15deg', '0deg'],
+        duration: 1200,
+        delay: stagger(150),
+        easing: "easeOutElastic(1, .6)",
+      });
 
-  h3 {
-    @apply text-2xl font-bold;
-  }
+      // Text content intro
+      animate([".error-title", ".error-text"], {
+        y: [30, 0],
+        opacity: [0, 1],
+        duration: 1000,
+        delay: stagger(150, { start: 400 }),
+        easing: "easeOutCubic",
+      });
 
-  p {
-    @apply text-gray-500;
-  }
+      // Button intro
+      animate(".btn-home", {
+        scale: [0.8, 1],
+        opacity: [0, 1],
+        duration: 1000,
+        delay: 800,
+        easing: "easeOutElastic(1, .5)",
+      });
 
-  a {
-    @apply text-blue-500 underline hover:text-blue-600;
-  }
-</style>
+      // Continuous floating animation
+      setTimeout(() => {
+        animate(".error-code", {
+          y: [-10, 10],
+          duration: 3000,
+          direction: "alternate",
+          loop: true,
+          easing: "easeInOutSine",
+        });
+
+        // Animated background pulse
+        animate(".animated-bg", {
+          scale: [1, 1.2],
+          opacity: [0.3, 0.5],
+          duration: 4000,
+          direction: "alternate",
+          loop: true,
+          easing: "easeInOutSine",
+        });
+      }, 1500);
+    } catch (e) {
+      console.error("Anime.js error: ", e);
+    }
+  });
+</script>

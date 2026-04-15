@@ -1,5 +1,6 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
+const { session } = Astro.locals;
 ---
 
 <MainLayout title="Astro Store | Minimalist Apparel">
@@ -45,16 +46,16 @@ import MainLayout from "@/layouts/MainLayout.astro";
     <h1
       class="text-4xl md:text-6xl font-normal text-gray-900 tracking-tight mb-6"
     >
-      Astro Store.
+      Waypoint
     </h1>
 
     <!-- Descriptive Text -->
     <p
       class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light mb-12"
     >
-      Descubre nuestra colección exclusiva de prendas. Diseñada para estilos de
-      vida modernos, con materiales elegidos cuidadosamente para ofrecer
-      comodidad sin sacrificar la elegancia.
+      Discover our exclusive clothing collection. Designed for modern
+      lifestyles, with materials carefully chosen to offer comfort without
+      sacrificing elegance.
     </p>
 
     <!-- Call to Actions -->
@@ -65,14 +66,18 @@ import MainLayout from "@/layouts/MainLayout.astro";
         href="/products"
         class="bg-gray-900 text-white px-10 py-3 rounded hover:bg-gray-800 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium"
       >
-        Ver Colección
+        Shop Collection
       </a>
-      <a
-        href="/login"
-        class="bg-transparent text-gray-900 border border-gray-900 px-10 py-3 rounded hover:bg-gray-50 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium"
-      >
-        Iniciar Sesión
-      </a>
+      {
+        !session && (
+          <a
+            href="/login"
+            class="bg-transparent text-gray-900 border border-gray-900 px-10 py-3 rounded hover:bg-gray-50 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium"
+          >
+            Sign In
+          </a>
+        )
+      }
     </div>
   </div>
 
@@ -97,10 +102,10 @@ import MainLayout from "@/layouts/MainLayout.astro";
           ></path></svg
         >
       </div>
-      <h3 class="text-xl font-medium text-gray-900 mb-3">Calidad Premium</h3>
+      <h3 class="text-xl font-medium text-gray-900 mb-3">Premium Quality</h3>
       <p class="text-gray-600 font-light">
-        Cada prenda es revisada rigurosamente para garantizar los mejores
-        acabados y larga durabilidad.
+        Each garment is rigorously inspected to ensure the finest finishes and
+        lasting durability.
       </p>
     </div>
 
@@ -119,10 +124,10 @@ import MainLayout from "@/layouts/MainLayout.astro";
           stroke-linejoin="round"><path d="M12 22V2M3 8h18M3 16h18"></path></svg
         >
       </div>
-      <h3 class="text-xl font-medium text-gray-900 mb-3">Diseño Minimalista</h3>
+      <h3 class="text-xl font-medium text-gray-900 mb-3">Minimalist Design</h3>
       <p class="text-gray-600 font-light">
-        Funcionalidad sin exceso de ruido. Líneas limpias, paletas neutrales y
-        una estética hecha para encajar contigo.
+        Functionality without the noise. Clean lines, neutral palettes, and an
+        aesthetic made to fit your style.
       </p>
     </div>
 
@@ -144,10 +149,12 @@ import MainLayout from "@/layouts/MainLayout.astro";
           ></path><path d="M9 14h.01"></path><path d="M15 14h.01"></path></svg
         >
       </div>
-      <h3 class="text-xl font-medium text-gray-900 mb-3">A tu medida</h3>
+      <h3 class="text-xl font-medium text-gray-900 mb-3">
+        Tailored Experience
+      </h3>
       <p class="text-gray-600 font-light">
-        Visualiza en pantalla completa los detalles y utiliza nuestra interfaz
-        pensada para inspirarte y decidir.
+        View details in full screen and use our thoughtfully designed interface
+        to inspire your choices.
       </p>
     </div>
   </section>

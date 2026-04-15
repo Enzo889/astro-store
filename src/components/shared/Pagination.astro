@@ -16,21 +16,64 @@ const currentPage = Math.max(
 const path = url.pathname;
 ---
 
-<div class="flex justify-between my-32">
-  <a href={`${path}?page=${Math.max(currentPage - 1, 1)}`} class="button"
-    >Previous</a
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 my-20">
+  <a
+    href={`${path}?page=${Math.max(currentPage - 1, 1)}`}
+    class={`group relative inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-medium tracking-wide text-white transition-all duration-300 bg-gray-900 rounded-lg shadow-sm hover:bg-gray-800 hover:shadow-md hover:shadow-gray-900/20 ${
+      currentPage === 1
+        ? "opacity-50 pointer-events-none"
+        : "hover:-translate-y-0.5"
+    }`}
+    aria-disabled={currentPage === 1 ? "true" : "false"}
   >
-  <span>Page {currentPage} of {totalPages}</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="transition-transform duration-300 group-hover:-translate-x-1"
+      ><path d="m15 18-6-6 6-6"></path></svg
+    >
+    Previous
+  </a>
+
+  <div
+    class="flex items-center px-5 py-2.5 bg-gray-50 rounded-lg border border-gray-100 shadow-sm"
+  >
+    <span class="text-gray-500 font-medium text-sm tracking-wide">
+      Page <span class="text-gray-900 font-bold mx-1">{currentPage}</span> of <span
+        class="text-gray-900 font-bold mx-1">{totalPages}</span
+      >
+    </span>
+  </div>
+
   <a
     href={`${path}?page=${Math.min(currentPage + 1, totalPages)}`}
-    class="button">Next</a
+    class={`group relative inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-medium tracking-wide text-white transition-all duration-300 bg-gray-900 rounded-lg shadow-sm hover:bg-gray-800 hover:shadow-md hover:shadow-gray-900/20 ${
+      currentPage === totalPages
+        ? "opacity-50 pointer-events-none"
+        : "hover:-translate-y-0.5"
+    }`}
+    aria-disabled={currentPage === totalPages ? "true" : "false"}
   >
+    Next
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="transition-transform duration-300 group-hover:translate-x-1"
+      ><path d="m9 18 6-6-6-6"></path></svg
+    >
+  </a>
 </div>
-
-<style>
-  @import "tailwindcss";
-
-  .button {
-    @apply rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700;
-  }
-</style>

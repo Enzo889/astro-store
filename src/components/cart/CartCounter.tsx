@@ -12,17 +12,21 @@ export const CartCounter = () => {
   }, []);
 
   return (
-    <a href="/cart" className="relative inline-block transition-all ">
+    <a
+      href="/cart"
+      className="group relative inline-flex items-center justify-center p-1 text-gray-700 transition-all duration-300 hover:text-gray-900 hover:-translate-y-0.5"
+    >
       {$itemsInCart > 0 && (
-        <span className="absolute -top-2 -right-2 flex justify-center items-center  bg-blue-500 text-white text-xs rounded-full w-5 h-5">
+        <span className="absolute -top-1 -right-1 flex justify-center items-center bg-gray-900 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 shadow-sm transition-transform duration-300 group-hover:scale-110">
           {$itemsInCart}
         </span>
       )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="1.5rem"
-        height="1.5rem"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
+        className="transition-transform duration-300 group-hover:drop-shadow-md"
       >
         <path
           fill="currentColor"

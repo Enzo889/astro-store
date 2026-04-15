@@ -1,6 +1,5 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
-import type { CartItem } from "@/interfaces";
 import { actions } from "astro:actions";
 import { Formatter } from "@/utils";
 
@@ -13,6 +12,8 @@ if (error || !products) {
   return Astro.redirect("/");
 }
 
+const {session} = Astro.locals
+
 const total = products.reduce(
   (acc, product) => acc + product.price * product.quantity,
   0,
@@ -20,8 +21,39 @@ const total = products.reduce(
 ---
 
 <MainLayout>
-  <h1 class="text-3xl">Cart</h1>
+  {
+    products.length === 0 ? (
+      <div class="empty-cart-container flex flex-col items-center justify-center min-h-[calc(100vh-160px)] py-10 text-center opacity-0">
+        <div class="cart-icon bg-gray-100 p-6 rounded-full mb-6">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="64"
+            height="64"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-gray-800"
+          >
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl md:text-3xl font-light text-gray-900 mb-4 empty-title">Your cart is empty</h2>
+        <p class="text-gray-500 max-w-md mx-auto mb-8 empty-text">
+          Explore our exclusive collections, find your favorite items, and add them here to start shopping.
+        </p>
+        <a href="/products" class="bg-gray-900 text-white px-8 py-3 rounded hover:bg-gray-800 transition-colors empty-btn uppercase tracking-wide text-sm font-medium">
+          Explore Products
+        </a>
+      </div>
+    ) : (
 
+        <h1 class="text-3xl">Cart</h1>
+        
   <section class="grid grid-cols-1 sm:grid-cols-2">
     <div class="order-2 sm:order-1">
       {
@@ -106,19 +138,50 @@ const total = products.reduce(
       </div>
 
       <button
+      type="button"
+      id="btn-buy"
+      data-session={session ? "true" : "false"}
         class="mt-10 w-full bg-blue-700 text-white py-3 rounded-lg hover:bg-blue-800 transition-all cursor-pointer"
       >
         Buy
       </button>
     </div>
   </section>
+)
+}
 </MainLayout>
 
 <script>
+  import { animate, stagger } from "animejs";
   import { itemsInCart } from "@/store/cart.store.";
   import { CartCookiesClient } from "@/utils";
   import { navigate } from "astro:transitions/client";
+  import Swal from "sweetalert2";
+  
   document.addEventListener("astro:page-load", () => {
+    // Empty Cart Animations
+    const emptyCart = document.querySelector(".empty-cart-container");
+    if (emptyCart) {
+      animate(emptyCart, {
+        opacity: [0, 1],
+        duration: 800,
+        easing: "easeOutCubic"
+      });
+      animate('.cart-icon', {
+        y: [-30, 0],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: "easeOutElastic(1, .6)"
+      });
+      animate(['.empty-title', '.empty-text', '.empty-btn'], {
+        y: [20, 0],
+        opacity: [0, 1],
+        delay: stagger(100, { start: 200 }),
+        duration: 800,
+        easing: "easeOutCubic"
+      });
+    }
+
     const deleteButtons: NodeListOf<HTMLButtonElement> =
       document.querySelectorAll(".btn-delete");
 
@@ -156,5 +219,30 @@ const total = products.reduce(
         navigate("/cart");
       });
     });
+
+    const btnBuy = document.querySelector("#btn-buy") as HTMLButtonElement; 
+
+    if(btnBuy){
+      btnBuy.addEventListener("click", () => {
+        const isLoggedIn = btnBuy.dataset.session === "true";
+
+        if(!isLoggedIn) {
+           return Swal.fire({
+                title: "Warning",
+                text: "You need to be login to realize a buy, when you press ok you will be redirected to the login page",
+                icon: "warning",
+                confirmButtonText: "OK"
+            }).then( () => {
+                navigate("/login");
+            })
+        }
+        Swal.fire({
+            title: "Success",
+            text: "Your order has been placed successfully. don't forget that this website is a demo",
+            icon: "success",
+            confirmButtonText: "OK"
+        })
+      })
+    }
   });
 </script>

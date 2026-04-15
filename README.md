@@ -1,43 +1,59 @@
-# Astro Starter Kit: Minimal
+# Waypoint Astro Store
 
-```sh
-pnpm create astro@latest -- --template minimal
+Welcome to the **Waypoint** documentation. This is a minimalist and elegant e-commerce apparel store built as a showcase for modern web development technologies. The project prioritizes aesthetics, smooth animations, and a seamless user experience.
+
+## Tech Stack
+
+- **[Astro](https://astro.build/)**: The modern web framework for content-driven websites.
+- **[React](https://react.dev/)**: For complex interactive components within the Astro islands architecture.
+- **[Tailwind CSS](https://tailwindcss.com/)**: A utility-first CSS framework for rapid and beautiful UI styling.
+- **[Astro DB](https://astro.build/db/)**: A fully-managed SQL database designed exclusively for Astro.
+- **[Better Auth](https://github.com/better-auth/better-auth)**: For secure and flexible authentication logic.
+- **[Anime.js v4](https://animejs.com/)**: For stunning SVG morphing and fluid animations on the homepage.
+- **[Swiper.js](https://swiperjs.com/)**: A modern mobile touch slider with hardware accelerated transitions, used for the dynamic product galleries.
+- **[Cloudinary](https://cloudinary.com/)**: For robust image uploading and management.
+
+## Installation
+
+Ensure you have Node.js (>=22.12.0) installed on your machine.
+Clone the repository and install the dependencies:
+
+```bash
+pnpm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Running the Application Locally
 
-## 🚀 Project Structure
+Start the development server using Astro:
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+pnpm dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Visit `http://localhost:4321` in your browser to view the application.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Key Features
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Minimalist Aesthetic:** Clean interfaces with neutral tones, providing an elegant browsing experience.
+- **Interactive Animations:** Features like interactive SVG morphing on the homepage logo leveraging anime.js motion and interactivity.
+- **Product Gallery:** High-quality image sliders using Swiper.js, ensuring an engaging user experience, complete with full-screen and thumbnail views.
+- **Authentication system:** Seamless login and register flows using Better Auth.
+- **Secure Image Management:** Integrated with Cloudinary to handle user and product image uploads seamlessly.
 
-## 🧞 Commands
+## Build and Preview
 
-All commands are run from the root of the project, from a terminal:
+To build your site for production:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+```bash
+pnpm build
+```
 
-## 👀 Want to learn more?
+Then preview your production build locally:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+pnpm preview
+```
+
+## Contributing
+
+This is a learning/demonstration repository intended to showcase how Astro can be integrated smoothly with different powerful tools to create modern interfaces.
