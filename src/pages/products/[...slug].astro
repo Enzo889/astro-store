@@ -44,14 +44,14 @@ const image = images[0].image.startsWith("http")
 
       <h3 class="mt-5">Quantity</h3>
       <div>
-        <button class="btn-quantity">-</button>
+        <button class="btn-quantity-minus">-</button>
         <input type="number" min="1" value="1" />
-        <button class="btn-quantity">+</button>
+        <button class="btn-quantity-plus">+</button>
       </div>
 
       <button
         class="mt-5 bg-gray-900 text-white px-10 py-3 rounded hover:bg-gray-800 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium cursor-pointer disabled:cursor-not-allowed"
-        >Add to cart</button
+        id="add-to-cart-button">Add to cart</button
       >
 
       <h3 class="mt-10">Description</h3>
@@ -85,8 +85,15 @@ const image = images[0].image.startsWith("http")
 
     let quantity = 1;
 
-    const [decrementButton, incrementButton, addToCardButton] =
-      document.querySelectorAll("button");
+    const decrementButton = document.querySelector(
+      ".btn-quantity-minus",
+    ) as HTMLButtonElement;
+    const incrementButton = document.querySelector(
+      ".btn-quantity-plus",
+    ) as HTMLButtonElement;
+    const addToCardButton = document.querySelector(
+      "#add-to-cart-button",
+    ) as HTMLButtonElement;
 
     if (!incrementButton || !quantityInput) return;
 
@@ -142,7 +149,8 @@ const image = images[0].image.startsWith("http")
     @apply text-blue-500 underline font-bold transition-all;
   }
 
-  .btn-quantity {
+  .btn-quantity-minus,
+  .btn-quantity-plus {
     @apply w-10 text-center p-2 border border-gray-300 hover:bg-gray-100 cursor-pointer;
   }
 
