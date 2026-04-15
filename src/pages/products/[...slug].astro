@@ -22,7 +22,7 @@ const image = images[0].image.startsWith("http")
 ---
 
 <MainLayout
-  title={product.title}
+  title={`${product.title} | Waypoint`}
   description={product.description}
   image={image}
 >
@@ -33,7 +33,7 @@ const image = images[0].image.startsWith("http")
       <h2 class="text-2xl font-bold">{product.title}</h2>
       <h2 class="font-bold">${product.price}</h2>
 
-      <h3 class="mt-5">Tallas</h3>
+      <h3 class="mt-5">Sizes</h3>
       <ul class="flex gap-3">
         {
           product.sizes
@@ -42,7 +42,7 @@ const image = images[0].image.startsWith("http")
         }
       </ul>
 
-      <h3 class="mt-5">Cantidad</h3>
+      <h3 class="mt-5">Quantity</h3>
       <div>
         <button class="btn-quantity">-</button>
         <input type="number" min="1" value="1" />
@@ -50,11 +50,11 @@ const image = images[0].image.startsWith("http")
       </div>
 
       <button
-        class="mt-5 bg-blue-500 text-white p-3 w-full disabled:bg-gray-300 cursor-pointer disabled:cursor-not-allowed"
-        >Añadir al carrito</button
+        class="mt-5 bg-gray-900 text-white px-10 py-3 rounded hover:bg-gray-800 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium cursor-pointer disabled:cursor-not-allowed"
+        >Add to cart</button
       >
 
-      <h3 class="mt-10">Descripción</h3>
+      <h3 class="mt-10">Description</h3>
       <p>{product.description}</p>
     </section>
   </div>

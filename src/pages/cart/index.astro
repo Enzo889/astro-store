@@ -20,7 +20,7 @@ const total = products.reduce(
 );
 ---
 
-<MainLayout>
+<MainLayout title="Cart | Waypoint" description="Your cart">
   {
     products.length === 0 ? (
       <div class="empty-cart-container flex flex-col items-center justify-center min-h-[calc(100vh-160px)] py-10 text-center opacity-0">
@@ -141,7 +141,7 @@ const total = products.reduce(
       type="button"
       id="btn-buy"
       data-session={session ? "true" : "false"}
-        class="mt-10 w-full bg-blue-700 text-white py-3 rounded-lg hover:bg-blue-800 transition-all cursor-pointer"
+        class="mt-10 bg-gray-900 text-white px-10 py-3 rounded hover:bg-gray-800 transition-colors w-full sm:w-auto text-lg tracking-wide uppercase font-medium cursor-pointer"
       >
         Buy
       </button>

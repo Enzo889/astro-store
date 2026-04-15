@@ -22,7 +22,7 @@ export const ProductCard = ({ product }: Props) => {
         onMouseEnter={() => setCurrentImage(images[1] ?? images[0])}
         onMouseLeave={() => setCurrentImage(images[0])}
       />
-      <h4 className="hover:text-red-500 transition-colors ">
+      <h4 className="hover:text-gray-700 transition-colors ">
         {product.title}{" "}
       </h4>
       <p className="text-sm">${product.price} </p>
